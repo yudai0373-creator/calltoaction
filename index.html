@@ -52,9 +52,16 @@
   <form onsubmit="kirimWA(); return false;">
     <input type="text" id="nama" placeholder="Nama Lengkap" required>
 
-    <select id="domisili" required>
-      <option value="">Pilih Domisili</option>
-    </select>
+    <input 
+  type="text" 
+  id="domisili" 
+  placeholder="Ketik domisili (contoh: palem → Palembang)" 
+  list="listKota" 
+  required
+>
+
+<datalist id="listKota"></datalist>
+
 
     <select id="keperluan" required>
       <option value="">Pilih Keperluan</option>
@@ -111,12 +118,16 @@ const kotaIndonesia = [
 ];
 
 // isi dropdown otomatis
-const selectDomisili = document.getElementById("domisili");
+<script>
+const listKota = document.getElementById("listKota");
+
 kotaIndonesia.forEach(kota => {
-  const opt = document.createElement("option");
-  opt.value = kota;
-  opt.text = kota;
-  selectDomisili.appendChild(opt);
+  const option = document.createElement("option");
+  option.value = kota;
+  listKota.appendChild(option);
+});
+</script>
+
 });
 
 // kirim WA
