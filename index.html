@@ -12,7 +12,7 @@ body {
   padding: 20px;
 }
 .box {
-  max-width: 450px;
+  max-width: 460px;
   margin: auto;
   background: #fff;
   padding: 25px;
@@ -20,13 +20,15 @@ body {
   box-shadow: 0 10px 25px rgba(0,0,0,0.1);
   position: relative;
 }
-h2 { text-align: center; }
+h2 { text-align: center; margin-bottom: 15px; }
+
 input, select, button {
   width: 100%;
   padding: 12px;
   margin-top: 10px;
   border-radius: 6px;
   border: 1px solid #ccc;
+  font-size: 14px;
 }
 button {
   background: #25D366;
@@ -62,13 +64,14 @@ button:hover { background: #1ebe5d; }
 <div class="box">
 <h2>Konsultasi Digital Marketing</h2>
 
-<form onsubmit="kirimWA(); return false;">
+<form id="formLead">
+
   <input type="text" id="nama" placeholder="Nama Lengkap" required>
 
   <input type="text" id="domisili" placeholder="Domisili (contoh: palem → Palembang)" autocomplete="off" required>
   <div id="suggestions"></div>
 
-  <select id="bidang" required>
+  <select id="bidang" required onchange="toggleBidangLainnya()">
     <option value="">Jenis Usaha</option>
     <option>UMKM Kuliner</option>
     <option>Fashion / Apparel</option>
@@ -76,15 +79,18 @@ button:hover { background: #1ebe5d; }
     <option>Toko Online / Marketplace</option>
     <option>Personal Brand</option>
     <option>Company / Corporate</option>
+    <option>Lainnya</option>
   </select>
+
+  <input type="text" id="bidangLainnya" placeholder="Sebutkan jenis usaha Anda" style="display:none;">
 
   <select id="lama" required>
     <option value="">Lama Usaha Berjalan</option>
     <option>Belum jalan</option>
-    <option>< 6 bulan</option>
+    <option>&lt; 6 bulan</option>
     <option>6 bulan – 1 tahun</option>
     <option>1 – 3 tahun</option>
-    <option>> 3 tahun</option>
+    <option>&gt; 3 tahun</option>
   </select>
 
   <select id="karyawan" required>
@@ -92,11 +98,11 @@ button:hover { background: #1ebe5d; }
     <option>Belum ada</option>
     <option>1 – 3 orang</option>
     <option>4 – 10 orang</option>
-    <option>> 10 orang</option>
+    <option>&gt; 10 orang</option>
   </select>
 
   <select id="kendala" required>
-    <option value="">Kendala Utama</option>
+    <option value="">Kendala Utama Saat Ini</option>
     <option>Sepi penjualan</option>
     <option>Tidak paham digital marketing</option>
     <option>Iklan sudah jalan tapi belum hasil</option>
@@ -115,81 +121,94 @@ button:hover { background: #1ebe5d; }
   </select>
 
   <button type="submit">Kirim ke WhatsApp</button>
+
 </form>
 </div>
 
 <script>
-const kotaIndonesia = ["Aceh Barat","Aceh Barat Daya","Aceh Besar","Aceh Jaya","Aceh Selatan","Aceh Singkil","Aceh Tamiang","Aceh Tengah","Aceh Tenggara","Aceh Timur","Aceh Utara","Banda Aceh","Langsa","Lhokseumawe","Sabang","Subulussalam",
-"Asahan","Batubara","Binjai","Dairi","Deli Serdang","Gunungsitoli","Humbang Hasundutan","Karo","Labuhanbatu","Labuhanbatu Selatan","Labuhanbatu Utara","Langkat","Mandailing Natal","Medan","Nias","Nias Barat","Nias Selatan","Nias Utara","Padang Lawas","Padang Lawas Utara","Padangsidimpuan","Pematangsiantar","Samosir","Serdang Bedagai","Sibolga","Simalungun","Tanjungbalai","Tapanuli Selatan","Tapanuli Tengah","Tapanuli Utara","Tebing Tinggi","Toba",
-"Agam","Bukittinggi","Dharmasraya","Kepulauan Mentawai","Lima Puluh Kota","Padang","Padang Panjang","Padang Pariaman","Pariaman","Pasaman","Pasaman Barat","Payakumbuh","Pesisir Selatan","Sawahlunto","Sijunjung","Solok","Solok Selatan","Tanah Datar",
-"Banyuasin","Empat Lawang","Lahat","Lubuklinggau","Muara Enim","Musi Banyuasin","Musi Rawas","Musi Rawas Utara","Ogan Ilir","Ogan Komering Ilir","Ogan Komering Ulu","Ogan Komering Ulu Selatan","Ogan Komering Ulu Timur","Pagar Alam","Palembang","Penukal Abab Lematang Ilir","Prabumulih",
-"Bangka","Bangka Barat","Bangka Selatan","Bangka Tengah","Belitung","Belitung Timur","Pangkalpinang",
-"Bengkulu","Bengkulu Selatan","Bengkulu Tengah","Bengkulu Utara","Kaur","Kepahiang","Lebong","Mukomuko","Rejang Lebong","Seluma",
-"Bandar Lampung","Lampung Barat","Lampung Selatan","Lampung Tengah","Lampung Timur","Lampung Utara","Mesuji","Metro","Pesawaran","Pesisir Barat","Pringsewu","Tanggamus","Tulang Bawang","Tulang Bawang Barat","Way Kanan",
-"Banten","Cilegon","Lebak","Pandeglang","Serang","Tangerang","Tangerang Selatan",
-"Bandung","Bandung Barat","Banjar","Bekasi","Bogor","Ciamis","Cianjur","Cimahi","Cirebon","Depok","Garut","Indramayu","Karawang","Kuningan","Majalengka","Pangandaran","Purwakarta","Subang","Sukabumi","Sumedang","Tasikmalaya",
-"Jakarta Barat","Jakarta Pusat","Jakarta Selatan","Jakarta Timur","Jakarta Utara","Kepulauan Seribu",
-"Semarang","Surakarta","Magelang","Salatiga","Pekalongan","Tegal","Brebes","Banyumas","Cilacap","Purbalingga","Banjarnegara","Wonosobo","Kebumen","Purworejo","Temanggung","Kendal","Batang","Pemalang","Jepara","Kudus","Pati","Rembang","Blora","Grobogan","Boyolali","Klaten","Sukoharjo","Wonogiri","Karanganyar","Sragen","Demak",
-"Surabaya","Malang","Batu","Blitar","Kediri","Madiun","Mojokerto","Pasuruan","Probolinggo","Sidoarjo","Lamongan","Gresik","Tuban","Bojonegoro","Ngawi","Magetan","Ponorogo","Pacitan","Trenggalek","Tulungagung","Jember","Bondowoso","Situbondo","Banyuwangi","Lumajang","Jombang","Nganjuk","Sampang","Pamekasan","Sumenep",
-"Denpasar","Badung","Bangli","Buleleng","Gianyar","Jembrana","Karangasem","Klungkung","Tabanan",
-"Pontianak","Singkawang","Kubu Raya","Mempawah","Sambas","Bengkayang","Sintang","Kapuas Hulu","Sekadau","Melawi","Kayong Utara","Ketapang",
-"Palangkaraya","Kotawaringin Barat","Kotawaringin Timur","Kapuas","Barito Selatan","Barito Timur","Barito Utara","Gunung Mas","Katingan","Lamandau","Murung Raya","Pulang Pisau","Seruyan","Sukamara",
-"Banjarmasin","Banjarbaru","Banjar","Barito Kuala","Hulu Sungai Selatan","Hulu Sungai Tengah","Hulu Sungai Utara","Kotabaru","Tabalong","Tanah Bumbu","Tanah Laut","Tapin",
-"Samarinda","Balikpapan","Bontang","Kutai Kartanegara","Kutai Barat","Kutai Timur","Berau","Mahakam Ulu","Penajam Paser Utara","Paser",
-"Tarakan","Bulungan","Malinau","Nunukan","Tana Tidung",
-"Manado","Bitung","Tomohon","Kotamobagu","Bolaang Mongondow","Bolaang Mongondow Selatan","Bolaang Mongondow Timur","Bolaang Mongondow Utara","Kepulauan Sangihe","Kepulauan Talaud","Minahasa","Minahasa Selatan","Minahasa Tenggara","Minahasa Utara",
-"Palu","Donggala","Poso","Tojo Una-Una","Tolitoli","Buol","Parigi Moutong","Sigi","Morowali","Morowali Utara","Banggai","Banggai Kepulauan","Banggai Laut",
-"Makassar","Parepare","Palopo","Maros","Gowa","Takalar","Jeneponto","Bantaeng","Bulukumba","Sinjai","Bone","Soppeng","Wajo","Sidrap","Pinrang","Enrekang","Tana Toraja","Toraja Utara","Luwu","Luwu Timur","Luwu Utara","Kepulauan Selayar",
-"Kendari","Baubau","Buton","Buton Selatan","Buton Tengah","Buton Utara","Kolaka","Kolaka Timur","Kolaka Utara","Konawe","Konawe Kepulauan","Konawe Selatan","Konawe Utara","Muna","Muna Barat","Wakatobi","Bombana",
-"Gorontalo","Boalemo","Bone Bolango","Pohuwato","Gorontalo Utara",
-"Ambon","Tual","Maluku Tengah","Maluku Tenggara","Maluku Tenggara Barat","Buru","Buru Selatan","Seram Bagian Barat","Seram Bagian Timur","Kepulauan Aru","Maluku Barat Daya",
-"Ternate","Tidore Kepulauan","Halmahera Barat","Halmahera Tengah","Halmahera Timur","Halmahera Selatan","Halmahera Utara","Pulau Morotai","Pulau Taliabu",
-"Jayapura","Jayapura Kota","Keerom","Sarmi","Mamberamo Raya","Biak Numfor","Supiori","Yapen","Waropen","Nabire","Dogiyai","Deiyai","Paniai","Intan Jaya","Mimika","Puncak","Puncak Jaya","Lanny Jaya","Nduga","Yahukimo","Pegunungan Bintang","Tolikara","Boven Digoel","Asmat","Mappi","Merauke","Maybrat","Raja Ampat","Sorong","Sorong Selatan","Tambrauw","Teluk Bintuni","Teluk Wondama","Manokwari","Manokwari Selatan","Pegunungan Arfak","Fakfak","Kaimana"
+document.addEventListener("DOMContentLoaded", function () {
 
-const inputDomisili = document.getElementById("domisili");
-const suggestions = document.getElementById("suggestions");
+  const kotaIndonesia = [
+    "Jakarta","Bandung","Surabaya","Medan","Palembang","Makassar",
+    "Semarang","Yogyakarta","Malang","Denpasar","Padang","Pekanbaru",
+    "Batam","Bogor","Depok","Bekasi","Tangerang","Serang","Cilegon",
+    "Cirebon","Purwokerto","Solo","Madiun","Kediri","Blitar","Jember",
+    "Banyuwangi","Pontianak","Samarinda","Balikpapan","Banjarmasin",
+    "Banjarbaru","Manado","Bitung","Gorontalo","Palu","Kendari",
+    "Ambon","Ternate","Tidore","Jayapura","Merauke","Sorong"
+  ];
 
-inputDomisili.addEventListener("input", function () {
-  const value = this.value.toLowerCase();
-  suggestions.innerHTML = "";
-  if (value.length < 2) return suggestions.style.display = "none";
+  const domisili = document.getElementById("domisili");
+  const suggestions = document.getElementById("suggestions");
 
-  kotaIndonesia.filter(kota => kota.toLowerCase().includes(value))
-    .forEach(kota => {
-      const div = document.createElement("div");
-      div.textContent = kota;
-      div.onclick = () => {
-        inputDomisili.value = kota;
-        suggestions.style.display = "none";
-      };
-      suggestions.appendChild(div);
-    });
+  domisili.addEventListener("input", function () {
+    const value = this.value.toLowerCase();
+    suggestions.innerHTML = "";
 
-  suggestions.style.display = suggestions.innerHTML ? "block" : "none";
+    if (value.length < 2) {
+      suggestions.style.display = "none";
+      return;
+    }
+
+    kotaIndonesia
+      .filter(kota => kota.toLowerCase().includes(value))
+      .slice(0, 15)
+      .forEach(kota => {
+        const div = document.createElement("div");
+        div.textContent = kota;
+        div.onclick = () => {
+          domisili.value = kota;
+          suggestions.style.display = "none";
+        };
+        suggestions.appendChild(div);
+      });
+
+    suggestions.style.display = suggestions.innerHTML ? "block" : "none";
+  });
+
+  document.getElementById("formLead").addEventListener("submit", function(e){
+    e.preventDefault();
+
+    const bidangSelect = document.getElementById("bidang").value;
+    const bidangFinal = bidangSelect === "Lainnya"
+      ? document.getElementById("bidangLainnya").value
+      : bidangSelect;
+
+    if (bidangSelect === "Lainnya" && bidangFinal.trim() === "") {
+      alert("Silakan isi jenis usaha Anda.");
+      return;
+    }
+
+    const pesan =
+`Halo Admin,
+Nama: ${document.getElementById("nama").value}
+Domisili: ${domisili.value}
+Jenis Usaha: ${bidangFinal}
+Lama Usaha: ${document.getElementById("lama").value}
+Jumlah Karyawan: ${document.getElementById("karyawan").value}
+Kendala Utama: ${document.getElementById("kendala").value}
+Sumber Informasi: ${document.getElementById("sumber").value}`;
+
+    window.open(
+      "https://wa.me/6281295685692?text=" + encodeURIComponent(pesan),
+      "_blank"
+    );
+  });
+
 });
 
-function kirimWA() {
-  const data = {
-    nama: nama.value,
-    domisili: domisili.value,
-    bidang: bidang.value,
-    lama: lama.value,
-    karyawan: karyawan.value,
-    kendala: kendala.value,
-    sumber: sumber.value
-  };
+function toggleBidangLainnya() {
+  const bidang = document.getElementById("bidang").value;
+  const input = document.getElementById("bidangLainnya");
 
-  const pesan =
-`Halo Admin,
-Nama: ${data.nama}
-Domisili: ${data.domisili}
-Jenis Usaha: ${data.bidang}
-Lama Usaha: ${data.lama}
-Jumlah Karyawan: ${data.karyawan}
-Kendala: ${data.kendala}
-Sumber: ${data.sumber}`;
-
-  window.open("https://wa.me/6281295685692?text=" + encodeURIComponent(pesan));
+  if (bidang === "Lainnya") {
+    input.style.display = "block";
+    input.required = true;
+  } else {
+    input.style.display = "none";
+    input.required = false;
+    input.value = "";
+  }
 }
 </script>
 
