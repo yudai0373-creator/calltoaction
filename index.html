@@ -18,6 +18,7 @@ body {
   padding: 25px;
   border-radius: 10px;
   box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+  position: relative;
 }
 h2 { text-align: center; }
 input, select, button {
@@ -35,6 +36,24 @@ button {
   cursor: pointer;
 }
 button:hover { background: #1ebe5d; }
+
+#suggestions {
+  border: 1px solid #ccc;
+  background: #fff;
+  position: absolute;
+  width: calc(100% - 50px);
+  max-height: 160px;
+  overflow-y: auto;
+  display: none;
+  z-index: 999;
+}
+#suggestions div {
+  padding: 10px;
+  cursor: pointer;
+}
+#suggestions div:hover {
+  background: #f0f0f0;
+}
 </style>
 </head>
 
@@ -46,9 +65,9 @@ button:hover { background: #1ebe5d; }
 <form onsubmit="kirimWA(); return false;">
   <input type="text" id="nama" placeholder="Nama Lengkap" required>
 
-  <input type="text" id="domisili" list="listKota"
-         placeholder="Ketik domisili (contoh: palem → Palembang)" required>
-  <datalist id="listKota"></datalist>
+  <input type="text" id="domisili" placeholder="Ketik domisili (contoh: palem → Palembang)"
+         autocomplete="off" required>
+  <div id="suggestions"></div>
 
   <select id="keperluan" required>
     <option value="">Pilih Keperluan</option>
@@ -73,20 +92,21 @@ button:hover { background: #1ebe5d; }
 
 <script>
 /* ===============================
-   DATA KAB/KOTA INDONESIA (AMAN)
+   DATA KAB / KOTA INDONESIA
    =============================== */
 const kotaIndonesia = [
-"Jakarta Selatan","Jakarta Timur","Jakarta Barat","Jakarta Utara","Jakarta Pusat","Kediri","Wonogiri",
-"Bandung","Bandung Barat","Bekasi","Bogor","Depok","Cimahi","Cirebon","Sukabumi",
-"Semarang","Surakarta","Magelang","Salatiga","Pekalongan","Tegal",
-"Surabaya","Malang","Batu","Sidoarjo","Gresik","Mojokerto","Jember","Banyuwangi",
-"Denpasar","Badung","Gianyar","Tabanan","Buleleng",
+"Aceh Barat","Aceh Barat Daya","Aceh Besar","Aceh Jaya","Aceh Selatan","Aceh Singkil",
+"Banda Aceh","Langsa","Lhokseumawe","Sabang","Subulussalam",
 "Medan","Binjai","Deli Serdang","Pematangsiantar","Tebing Tinggi",
-"Palembang","Prabumulih","Lubuklinggau","Muara Enim","Ogan Ilir",
-"Padang","Bukittinggi","Payakumbuh","Pariaman","Solok",
-"Makassar","Maros","Gowa","Takalar","Parepare","Palopo",
-"Balikpapan","Samarinda","Bontang","Kutai Kartanegara",
-"Banjarmasin","Banjarbaru","Martapura",
+"Padang","Bukittinggi","Payakumbuh","Pariaman",
+"Palembang","Prabumulih","Lubuklinggau",
+"Jakarta Selatan","Jakarta Timur","Jakarta Barat","Jakarta Utara","Jakarta Pusat",
+"Bandung","Bandung Barat","Bekasi","Bogor","Depok","Cimahi","Cirebon",
+"Semarang","Surakarta","Magelang","Salatiga","Pekalongan","Tegal",
+"Surabaya","Malang","Batu","Sidoarjo","Gresik","Mojokerto",
+"Denpasar","Badung","Gianyar","Tabanan",
+"Makassar","Parepare","Palopo","Maros","Gowa","Takalar",
+"Banjarmasin","Banjarbaru","Balikpapan","Samarinda","Bontang",
 "Manado","Bitung","Tomohon",
 "Palu","Donggala","Poso",
 "Kendari","Baubau",
@@ -95,15 +115,38 @@ const kotaIndonesia = [
 "Sorong","Manokwari"
 ];
 
-// isi autocomplete
-const listKota = document.getElementById("listKota");
-kotaIndonesia.forEach(kota => {
-  const option = document.createElement("option");
-  option.value = kota;
-  listKota.appendChild(option);
+/* ===============================
+   AUTOCOMPLETE DOMISILI
+   =============================== */
+const inputDomisili = document.getElementById("domisili");
+const suggestions = document.getElementById("suggestions");
+
+inputDomisili.addEventListener("input", function () {
+  const value = this.value.toLowerCase();
+  suggestions.innerHTML = "";
+  if (value.length < 2) {
+    suggestions.style.display = "none";
+    return;
+  }
+
+  kotaIndonesia.filter(kota =>
+    kota.toLowerCase().includes(value)
+  ).slice(0, 15).forEach(kota => {
+    const div = document.createElement("div");
+    div.textContent = kota;
+    div.onclick = () => {
+      inputDomisili.value = kota;
+      suggestions.style.display = "none";
+    };
+    suggestions.appendChild(div);
+  });
+
+  suggestions.style.display = suggestions.innerHTML ? "block" : "none";
 });
 
-// kirim WhatsApp
+/* ===============================
+   KIRIM KE WHATSAPP
+   =============================== */
 function kirimWA() {
   const nama = document.getElementById("nama").value;
   const domisili = document.getElementById("domisili").value;
@@ -117,8 +160,10 @@ function kirimWA() {
     "Keperluan: " + keperluan + "%0A" +
     "Sumber Informasi: " + sumber;
 
-  const nomorWA = "6281295685692";
-  window.open("https://wa.me/" + nomorWA + "?text=" + pesan, "_blank");
+  window.open(
+    "https://wa.me/6281295685692?text=" + pesan,
+    "_blank"
+  );
 }
 </script>
 
