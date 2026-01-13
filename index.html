@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Konsultasi Digital Marketing</title>
+</head>
+<body>
+
+<h2>Konsultasi Digital Marketing</h2>
+
+<form onsubmit="kirimWA(); return false;">
+  <input type="text" id="nama" placeholder="Nama" required><br><br>
+  <input type="text" id="domisili" placeholder="Domisili" required><br><br>
+
+  <select id="keperluan" required>
+    <option value="">Pilih Keperluan</option>
+    <option value="Konsultasi">Konsultasi</option>
+    <option value="Kolaborasi">Kolaborasi</option>
+  </select><br><br>
+
+  <input type="text" id="sumber" placeholder="Sumber Informasi"><br><br>
+
+  <button type="submit">Lanjut ke WhatsApp</button>
+</form>
+
+<script>
+function kirimWA() {
+  let nama = document.getElementById("nama").value;
+  let domisili = document.getElementById("domisili").value;
+  let keperluan = document.getElementById("keperluan").value;
+  let sumber = document.getElementById("sumber").value;
+
+  let pesan =
+`Hallo Kak, Saya Mau Konsultasi Jasa Digital Marketing?
+
+Nama: ${nama}
+Domisili: ${domisili}
+Keperluan: ${keperluan}
+Sumber Informasi: ${sumber}`;
+
+  let url = "https://wa.me/6281295685692?text=" + encodeURIComponent(pesan);
+  window.location.href = url;
+}
+</script>
+
+</body>
+</html>
