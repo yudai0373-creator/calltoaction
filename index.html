@@ -129,13 +129,32 @@ button:hover { background: #1ebe5d; }
 document.addEventListener("DOMContentLoaded", function () {
 
   const kotaIndonesia = [
-    "Jakarta","Bandung","Surabaya","Medan","Palembang","Makassar",
-    "Semarang","Yogyakarta","Malang","Denpasar","Padang","Pekanbaru",
-    "Batam","Bogor","Depok","Bekasi","Tangerang","Serang","Cilegon",
-    "Cirebon","Purwokerto","Solo","Madiun","Kediri","Blitar","Jember",
-    "Banyuwangi","Pontianak","Samarinda","Balikpapan","Banjarmasin",
-    "Banjarbaru","Manado","Bitung","Gorontalo","Palu","Kendari",
-    "Ambon","Ternate","Tidore","Jayapura","Merauke","Sorong"
+    "Aceh Barat","Aceh Barat Daya","Aceh Besar","Aceh Jaya","Aceh Selatan","Aceh Singkil","Aceh Tamiang","Aceh Tengah","Aceh Tenggara","Aceh Timur","Aceh Utara","Banda Aceh","Langsa","Lhokseumawe","Sabang","Subulussalam",
+"Asahan","Batubara","Binjai","Dairi","Deli Serdang","Gunungsitoli","Humbang Hasundutan","Karo","Labuhanbatu","Labuhanbatu Selatan","Labuhanbatu Utara","Langkat","Mandailing Natal","Medan","Nias","Nias Barat","Nias Selatan","Nias Utara","Padang Lawas","Padang Lawas Utara","Padangsidimpuan","Pematangsiantar","Samosir","Serdang Bedagai","Sibolga","Simalungun","Tanjungbalai","Tapanuli Selatan","Tapanuli Tengah","Tapanuli Utara","Tebing Tinggi","Toba",
+"Agam","Bukittinggi","Dharmasraya","Kepulauan Mentawai","Lima Puluh Kota","Padang","Padang Panjang","Padang Pariaman","Pariaman","Pasaman","Pasaman Barat","Payakumbuh","Pesisir Selatan","Sawahlunto","Sijunjung","Solok","Solok Selatan","Tanah Datar",
+"Banyuasin","Empat Lawang","Lahat","Lubuklinggau","Muara Enim","Musi Banyuasin","Musi Rawas","Musi Rawas Utara","Ogan Ilir","Ogan Komering Ilir","Ogan Komering Ulu","Ogan Komering Ulu Selatan","Ogan Komering Ulu Timur","Pagar Alam","Palembang","Penukal Abab Lematang Ilir","Prabumulih",
+"Bangka","Bangka Barat","Bangka Selatan","Bangka Tengah","Belitung","Belitung Timur","Pangkalpinang",
+"Bengkulu","Bengkulu Selatan","Bengkulu Tengah","Bengkulu Utara","Kaur","Kepahiang","Lebong","Mukomuko","Rejang Lebong","Seluma",
+"Bandar Lampung","Lampung Barat","Lampung Selatan","Lampung Tengah","Lampung Timur","Lampung Utara","Mesuji","Metro","Pesawaran","Pesisir Barat","Pringsewu","Tanggamus","Tulang Bawang","Tulang Bawang Barat","Way Kanan",
+"Banten","Cilegon","Lebak","Pandeglang","Serang","Tangerang","Tangerang Selatan",
+"Bandung","Bandung Barat","Banjar","Bekasi","Bogor","Ciamis","Cianjur","Cimahi","Cirebon","Depok","Garut","Indramayu","Karawang","Kuningan","Majalengka","Pangandaran","Purwakarta","Subang","Sukabumi","Sumedang","Tasikmalaya",
+"Jakarta Barat","Jakarta Pusat","Jakarta Selatan","Jakarta Timur","Jakarta Utara","Kepulauan Seribu",
+"Semarang","Surakarta","Magelang","Salatiga","Pekalongan","Tegal","Brebes","Banyumas","Cilacap","Purbalingga","Banjarnegara","Wonosobo","Kebumen","Purworejo","Temanggung","Kendal","Batang","Pemalang","Jepara","Kudus","Pati","Rembang","Blora","Grobogan","Boyolali","Klaten","Sukoharjo","Wonogiri","Karanganyar","Sragen","Demak",
+"Surabaya","Malang","Batu","Blitar","Kediri","Madiun","Mojokerto","Pasuruan","Probolinggo","Sidoarjo","Lamongan","Gresik","Tuban","Bojonegoro","Ngawi","Magetan","Ponorogo","Pacitan","Trenggalek","Tulungagung","Jember","Bondowoso","Situbondo","Banyuwangi","Lumajang","Jombang","Nganjuk","Sampang","Pamekasan","Sumenep",
+"Denpasar","Badung","Bangli","Buleleng","Gianyar","Jembrana","Karangasem","Klungkung","Tabanan",
+"Pontianak","Singkawang","Kubu Raya","Mempawah","Sambas","Bengkayang","Sintang","Kapuas Hulu","Sekadau","Melawi","Kayong Utara","Ketapang",
+"Palangkaraya","Kotawaringin Barat","Kotawaringin Timur","Kapuas","Barito Selatan","Barito Timur","Barito Utara","Gunung Mas","Katingan","Lamandau","Murung Raya","Pulang Pisau","Seruyan","Sukamara",
+"Banjarmasin","Banjarbaru","Banjar","Barito Kuala","Hulu Sungai Selatan","Hulu Sungai Tengah","Hulu Sungai Utara","Kotabaru","Tabalong","Tanah Bumbu","Tanah Laut","Tapin",
+"Samarinda","Balikpapan","Bontang","Kutai Kartanegara","Kutai Barat","Kutai Timur","Berau","Mahakam Ulu","Penajam Paser Utara","Paser",
+"Tarakan","Bulungan","Malinau","Nunukan","Tana Tidung",
+"Manado","Bitung","Tomohon","Kotamobagu","Bolaang Mongondow","Bolaang Mongondow Selatan","Bolaang Mongondow Timur","Bolaang Mongondow Utara","Kepulauan Sangihe","Kepulauan Talaud","Minahasa","Minahasa Selatan","Minahasa Tenggara","Minahasa Utara",
+"Palu","Donggala","Poso","Tojo Una-Una","Tolitoli","Buol","Parigi Moutong","Sigi","Morowali","Morowali Utara","Banggai","Banggai Kepulauan","Banggai Laut",
+"Makassar","Parepare","Palopo","Maros","Gowa","Takalar","Jeneponto","Bantaeng","Bulukumba","Sinjai","Bone","Soppeng","Wajo","Sidrap","Pinrang","Enrekang","Tana Toraja","Toraja Utara","Luwu","Luwu Timur","Luwu Utara","Kepulauan Selayar",
+"Kendari","Baubau","Buton","Buton Selatan","Buton Tengah","Buton Utara","Kolaka","Kolaka Timur","Kolaka Utara","Konawe","Konawe Kepulauan","Konawe Selatan","Konawe Utara","Muna","Muna Barat","Wakatobi","Bombana",
+"Gorontalo","Boalemo","Bone Bolango","Pohuwato","Gorontalo Utara",
+"Ambon","Tual","Maluku Tengah","Maluku Tenggara","Maluku Tenggara Barat","Buru","Buru Selatan","Seram Bagian Barat","Seram Bagian Timur","Kepulauan Aru","Maluku Barat Daya",
+"Ternate","Tidore Kepulauan","Halmahera Barat","Halmahera Tengah","Halmahera Timur","Halmahera Selatan","Halmahera Utara","Pulau Morotai","Pulau Taliabu",
+"Jayapura","Jayapura Kota","Keerom","Sarmi","Mamberamo Raya","Biak Numfor","Supiori","Yapen","Waropen","Nabire","Dogiyai","Deiyai","Paniai","Intan Jaya","Mimika","Puncak","Puncak Jaya","Lanny Jaya","Nduga","Yahukimo","Pegunungan Bintang","Tolikara","Boven Digoel","Asmat","Mappi","Merauke","Maybrat","Raja Ampat","Sorong","Sorong Selatan","Tambrauw","Teluk Bintuni","Teluk Wondama","Manokwari","Manokwari Selatan","Pegunungan Arfak","Fakfak","Kaimana"
   ];
 
   const domisili = document.getElementById("domisili");
